@@ -1,7 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}} - Series {% endblock %}
+{% block title %}{{ parent() }} - Series {% endblock %}
 
 {% block body %}
+    <h1>Séries</h1>
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>Overview</th>
+            <th>Status</th>
+            <th>Genres</th>
+            <th>Vote</th>
+            <th>Popularity</th>
+            <th>First Air Date</th>
+            <th>Last Air Date</th>
+            <th>Date Created</th>
+            <th>Date Modified</th>
+        </tr>
+        {% for serie in series %}
+            <tr>
+                <td>
+                    {{ serie.name }}
+                </td>
+                <td> {{ serie.overview }}   </td>
+                <td> {{ serie.status }}   </td>
+                <td>   {{ serie.genres }}   </td>
+                <td>  {{ serie.vote }}   </td>
+                <td>   {{ serie.popularity }}   </td>
+                <td> {{ serie.firstAirDate | date('d/m/Y') }}   </td>
+                <td> {{ serie.lastAirDate ? serie.lastAirDate | date('d/m/Y') : ''}}   </td>
+                <td> {{  serie.dateCreated | date('d/m/Y') }}   </td>
+                <td> {{ serie.dateModified ? serie.dateModified | date('d/m/Y') : '' }}   </td>
 
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
