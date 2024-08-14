@@ -9,12 +9,22 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class SerieController extends AbstractController
 {
-    #[Route('/serie', name: 'app_serie')]
-    public function index(SerieRepository $serieRepository): Response
+    #[Route('/series/{page}', name: 'app_serie_list', requirements: ['page' => '\d+'], defaults: ['page' =>1])]
+    public function list(SerieRepository $serieRepository, int $page): Response
     {
-        $series = $serieRepository->findAll();
+        $nbByPage = 10;
+        $offset = ($page * $nbByPage) - $nbByPage;
+        //$series = $serieRepository->findAll();
+        $criterias =['status' => 'Returning', 'genres'=>'Gore'];
+        $nbTotal = $serieRepository->count($criterias);
 
 
-        return $this->render('serie/index.html.twig', ['series'=>$series] );
+        $series = $serieRepository->findBy( $criterias, ['vote'=> 'DESC'], $nbByPage, $offset);
+
+
+
+        return $this->render('serie/index.html.twig', ['series'=>$series, 'page'=>$page, 'nbPageMax'=> ceil($nbTotal / $nbByPage)] );
     }
+
+
 }

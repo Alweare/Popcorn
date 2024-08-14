@@ -4,6 +4,12 @@
 
 {% block body %}
     <h1>Séries</h1>
+    {% if page > 1 %}
+        <a href="{{ path('app_serie_list', {'page': page - 1}) }}">Précédent</a>
+    {% endif %}
+    {% if page < nbPageMax %}
+    <a href="{{ path('app_serie_list', {'page': page + 1}) }}">suivant</a>
+    {% endif %}
     <table>
         <tr>
             <th>Nom</th>
